@@ -1,7 +1,5 @@
-DROP DATABASE IF EXISTS ProjetoModelo;
-CREATE DATABASE ProjetoModelo;
-
-USE ProjetoModelo;
+CREATE DATABASE nh3;
+USE nh3;
 
 CREATE TABLE Empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -25,23 +23,15 @@ fkEmpresa INT UNIQUE,
 CONSTRAINT fkEmpresaFuncionario FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa)
 );
 
-CREATE TABLE localMonitoramento (
-	idLocal INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(45) NOT NULL,
-    setor VARCHAR(45) NOT NULL,
-    fkEmpresa INT,
-    CONSTRAINT fkLocalEmpresa FOREIGN KEY (fkEmpresa) 
-		REFERENCES empresa(idEmpresa)
-);
-
 CREATE TABLE Sensor(
 idSensor INT PRIMARY KEY AUTO_INCREMENT,
 codSerie INT NOT NULL,
 statusSensor TINYINT DEFAULT 1,
 dtInstalacao DATE,
-fkLocal INT,
-    CONSTRAINT fkLocal FOREIGN KEY (fkLocal) 
-		REFERENCES localMonitoramento(idLocal)
+localSensor VARCHAR(45),
+fkEmpresa INT,
+CONSTRAINT fkLocalEmpresa FOREIGN KEY (fkEmpresa) 
+		REFERENCES empresa(idEmpresa)
 );
 
 CREATE TABLE leitura (
@@ -66,7 +56,6 @@ fkEmpresa INT,
 CONSTRAINT fkEmpresaPlano FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa)
 );
 
-
 CREATE TABLE Pagamento (
 idPagamento INT PRIMARY KEY AUTO_INCREMENT,
 formaPagamento VARCHAR(30) NOT NULL,
@@ -76,7 +65,6 @@ dtPagamento DATETIME DEFAULT CURRENT_TIMESTAMP,
 fkEmpresa INT,
 CONSTRAINT fkEmpresaPagamento FOREIGN KEY(fkEmpresa) REFERENCES Empresa (idEmpresa)  
 );
-
 
 INSERT INTO Empresa (CNPJ, nomeFantasia ,razãoSocial, email, telefone) VALUES
 ('42599543000117', 'Itau' , 'Itau Unibanco', 'itaubanco@empresarial', '11957451375'),
@@ -97,22 +85,13 @@ INSERT INTO Funcionario (email, nome, senha, telefone, cpf) VALUES
 
 SELECT * FROM Funcionario; 
 
-INSERT INTO localMonitoramento(nome, setor, fkEmpresa)VALUES
-('Tunel' , 'Setor Norte' , 1),
-('Sala das Maquina' , 'Setor Norte' , 2),
-('Sala Principal' , 'Setor Norte' , 2),
-('Tunel' , 'Setor Sul' , 3);
-
-SELECT * FROM localMonitoramento;
-
-INSERT INTO Sensor(codSerie , dtInstalacao , fkLocal)VALUES
-(111322 , '2024-09-11', 1),
-(111333 , '2024-10-21', 2),
-(111334 , '2024-12-30', 1),
-(112111 , '2025-04-25', 3);
+INSERT INTO Sensor(codSerie , dtInstalacao , localSensor)VALUES
+(111322 , '2024-09-11', 'camara Fria 1'),
+(111333 , '2024-10-21', 'camara Fria 1'),
+(111334 , '2024-12-30', 'camara Fria 2'),
+(112111 , '2025-04-25', 'camara Fria 2');
 
 SELECT * FROM Sensor;
-
 
 INSERT INTO Leitura(valorPPM, fkSensor) VALUES
 (11 , 1),
@@ -142,5 +121,3 @@ INSERT INTO Pagamento (formaPagamento , fkEmpresa)VALUES
 
 SELECT * FROM Pagamento;
 
-
-    
