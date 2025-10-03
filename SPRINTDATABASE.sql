@@ -1,6 +1,8 @@
 CREATE DATABASE nh3;
 USE nh3;
 
+
+
 CREATE TABLE Empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 CNPJ CHAR(14) UNIQUE NOT NULL,
@@ -47,11 +49,8 @@ idPlano INT PRIMARY KEY AUTO_INCREMENT,
 dtVencimento DATE,
 valorPlano DECIMAL (7,2),
 tipoPlano VARCHAR(15),
-statusPlano VARCHAR(15),
-CONSTRAINT chkStatusPlano
-	CHECK (statusPlano IN ('pago', 'pendente', 'atrasado')),
 CONSTRAINT chkTipoPlano
-	CHECK (tipoPlano IN ('mensal', 'semestral','anual')),
+	CHECK (tipoPlano IN ('semestral','anual')),
 fkEmpresa INT,
 CONSTRAINT fkEmpresaPlano FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa)
 );
@@ -102,12 +101,12 @@ INSERT INTO Leitura(valorPPM, fkSensor) VALUES
 
 SELECT * FROM Leitura;
 
-INSERT Plano (dtVencimento, valorPlano, tipoPlano, statusPlano, fkEmpresa) VALUES
-('2025-12-30' , 10000 , 'anual' , 'pago' , 1),
-('2026-02-20' , 15000 , 'anual' , 'pago' , 2),
-('2026-01-10' , 12000 , 'anual' , 'pago' , 3),
-('2025-09-30' , 7000 , 'semestral' , 'pendente' , 4),
-('2025-09-20' , 3000 , 'mensal' , 'atrasado' , 5);
+INSERT Plano (dtVencimento, valorPlano, tipoPlano, fkEmpresa) VALUES
+('2024-12-30' , 10000 , 'anual' ,  1),
+('2026-02-20' , 15000 , 'anual' ,  2),
+('2026-01-10' , 12000 , 'anual' ,  3),
+('2025-09-30' , 7000 , 'semestral' ,  4),
+('2024-09-20' , 3000 , 'semestral' ,  5);
 
 SELECT * FROM Plano;
 
@@ -120,4 +119,19 @@ INSERT INTO Pagamento (formaPagamento , fkEmpresa)VALUES
 ('transferencia' , 4);
 
 SELECT * FROM Pagamento;
+
+
+SELECT p.dtPagamento AS 'Data do Pagamento',
+		e.nomeFantasia AS 'Empresa', 
+        pl.tipoPlano AS 'Tipo do plano',
+        pl.dtVencimento AS 'Vencimento do plano',
+        CASE
+			WHEN pl.tipoPlano = 'Anual' AND p.dtPagamento <  pl.dtVencimento THEN 'PAGO'
+			WHEN pl.tipoPlano = 'Anual' AND p.dtPagamento <  pl.dtVencimento THEN 'PAGAMENTO ATRASADO'
+			WHEN pl.tipoPlano = 'Semestral' AND p.dtPagamento <  pl.dtVencimento THEN 'PAGO'
+			WHEN pl.tipoPlano = 'Semestral' AND p.dtPagamento >  pl.dtVencimento THEN 'PAGAMENTO ATRASADO'
+            END AS 'Pago'
+        FROM Pagamento AS p
+        JOIN Empresa AS e ON p.fkEmpresa = e.idEmpresa
+        JOIN Plano AS pl ON pl.fkEmpresa = e.idEmpresa;
 
