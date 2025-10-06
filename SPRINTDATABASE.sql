@@ -34,11 +34,11 @@ dtInstalacao DATE,
 localSensor VARCHAR(45),
 fkEmpresa INT,
 CONSTRAINT fkLocalEmpresa FOREIGN KEY (fkEmpresa) 
-		REFERENCES empresa(idEmpresa)
+		REFERENCES Empresa(idEmpresa)
 );
 
-CREATE TABLE leitura (
-	idLeitura INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE Leitura (
+	idLeitura INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     dataHora  DATETIME DEFAULT CURRENT_TIMESTAMP,
     valorPPM  DECIMAL (5,2) NOT NULL,
 	fkSensor INT,
@@ -135,4 +135,3 @@ SELECT p.dtPagamento AS 'Data do Pagamento',
         FROM Pagamento AS p
         JOIN Empresa AS e ON p.fkEmpresa = e.idEmpresa
         JOIN Plano AS pl ON pl.fkEmpresa = e.idEmpresa;
-
