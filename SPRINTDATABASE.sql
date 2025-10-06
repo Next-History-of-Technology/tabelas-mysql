@@ -1,3 +1,4 @@
+drop database if exists nh3;
 CREATE DATABASE nh3;
 USE nh3;
 
