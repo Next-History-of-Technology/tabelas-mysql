@@ -19,7 +19,7 @@ email VARCHAR(50) UNIQUE NOT NULL,
 nome VARCHAR(60) NOT NULL,
 senha VARCHAR(100) NOT NULL,
 telefone CHAR(13) UNIQUE NOT NULL,
-cpf VARCHAR(11) UNIQUE NOT NULL,
+cpf VARCHAR(11) UNIQUE NOT NULL ,
 statusFuncionario TINYINT DEFAULT 1,
 fkEmpresa INT UNIQUE,
 CONSTRAINT fkEmpresaFuncionario FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa)
@@ -27,7 +27,7 @@ CONSTRAINT fkEmpresaFuncionario FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmp
 
 CREATE TABLE Sensor(
 idSensor INT PRIMARY KEY AUTO_INCREMENT,
-codSerie INT NOT NULL,
+codSerie INT NOT NULL UNIQUE,
 statusSensor TINYINT DEFAULT 1,
 dtInstalacao DATE,
 localSensor VARCHAR(45),
