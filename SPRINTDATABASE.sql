@@ -49,12 +49,10 @@ CREATE TABLE Leitura (
 
 
 CREATE TABLE Pagamento (
-idPagamento INT AUTO_INCREMENT,
-fkPlano INT,
+idPagamento INT AUTO_INCREMENT PRIMARY KEY,
 dtVencimento DATE NOT NULL,
 valorPlano DECIMAL (7,2) NOT NULL,
 tipoPlano VARCHAR(15) NOT NULL,
-PRIMARY KEY (idPagamento , fkPlano),
 formaPagamento VARCHAR(30) NOT NULL,
 CONSTRAINT chkFormaPagamento
 	CHECK (formaPagamento IN ('boleto', 'credito', 'pix', 'transferencia')),
@@ -66,11 +64,11 @@ CONSTRAINT fkEmpresaPagamento FOREIGN KEY(fkEmpresa) REFERENCES Empresa (idEmpre
 );
 
 INSERT INTO Empresa (CNPJ, nomeFantasia ,razãoSocial, telefone) VALUES
-('42599543000117', 'Itau' , 'Itau Unibanco',  '11957451375'),
-('84224447000134', 'Casas Bahia' , 'Casas Bahia', '11959441622'),
-('00000000000001', 'Btg Pactual' ,'Btg Pactual',  '11932111611'),
-('00000000000002', 'Americanas' ,'Americanas', '11955555637'),
-('00000000000003', 'Avanade' , 'Avanade', '11999991637');
+('42599543000117', 'Swift' , 'JBS S/A',  '11957451375'),
+('84224447000134', 'Friboi' , 'Friboi', '11959441622'),
+('00000000000001', 'Seara' ,'Seara Alimentos Ltda.',  '11932111611'),
+('00000000000002', 'Perdigão' ,'PERDIGÃO AGROINDUSTRIAL S.A.', '11955555637'),
+('00000000000003', 'Aurora' , 'COOPERATIVA CENTRAL AURORA ALIMENTOS', '11999991637');
     
 SELECT * FROM Empresa; 
 
@@ -102,12 +100,12 @@ INSERT INTO Leitura(valorPPM, fkSensor) VALUES
 SELECT * FROM Leitura;
 
 
-INSERT INTO Pagamento (fkPlano,  formaPagamento , fkEmpresa , dtVencimento, tipoPlano, valorPlano)VALUES
-(1,'transferencia' , 1 , '2026-12-30' , 'Anual' , 1000),
-(2,'pix' , 2 , '2025-12-10' , 'Anual' , 1000),
-(1,'credito' , 3 , '2026-01-12' , 'Anual' , 1000),
-(1,'transferencia' , 4 , '2025-10-10' , 'Anual' , 1000),
-(2,'transferencia' , 4 , '2025-10-15' , 'Anual' , 1000);
+INSERT INTO Pagamento (formaPagamento , fkEmpresa , dtVencimento, tipoPlano, valorPlano)VALUES
+('transferencia' , 1 , '2026-12-30' , 'Anual' , 1000),
+('pix' , 2 , '2025-12-10' , 'Anual' , 1000),
+('credito' , 3 , '2026-01-12' , 'Anual' , 1000),
+('transferencia' , 4 , '2025-10-10' , 'Anual' , 1000),
+('transferencia' , 4 , '2025-10-15' , 'Anual' , 1000);
 
 SELECT * FROM Pagamento;
 
