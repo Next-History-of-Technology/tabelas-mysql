@@ -103,26 +103,12 @@ SELECT * FROM Leitura;
 
 
 INSERT INTO Pagamento (fkPlano,  formaPagamento , fkEmpresa , dtVencimento, tipoPlano, valorPlano)VALUES
-(1,'transferencia' , 1 , 2025-12-12 , 'Anual' , 1000),
-(2,'pix' , 2 , 2025-12-12 , 'Anual' , 1000),
-(1,'credito' , 3 , 2025-12-12 , 'Anual' , 1000),
-(1,'transferencia' , 4 , 2025-12-12 , 'Anual' , 1000),
-(2,'transferencia' , 4 , 2025-12-12 , 'Anual' , 1000);
+(1,'transferencia' , 1 , '2026-12-30' , 'Anual' , 1000),
+(2,'pix' , 2 , '2025-12-10' , 'Anual' , 1000),
+(1,'credito' , 3 , '2026-01-12' , 'Anual' , 1000),
+(1,'transferencia' , 4 , '2025-10-10' , 'Anual' , 1000),
+(2,'transferencia' , 4 , '2025-10-15' , 'Anual' , 1000);
 
 SELECT * FROM Pagamento;
 
-
-SELECT p.dtPagamento AS 'Data do Pagamento',
-		e.nomeFantasia AS 'Empresa', 
-        pl.tipoPlano AS 'Tipo do plano',
-        pl.dtVencimento AS 'Vencimento do plano',
-        CASE
-			WHEN pl.tipoPlano = 'Anual' AND p.dtPagamento <  pl.dtVencimento THEN 'PAGO'
-			WHEN pl.tipoPlano = 'Anual' AND p.dtPagamento <  pl.dtVencimento THEN 'PAGAMENTO ATRASADO'
-			WHEN pl.tipoPlano = 'Semestral' AND p.dtPagamento <  pl.dtVencimento THEN 'PAGO'
-			WHEN pl.tipoPlano = 'Semestral' AND p.dtPagamento >  pl.dtVencimento THEN 'PAGAMENTO ATRASADO'
-            END AS 'Pago'
-        FROM Pagamento AS p
-        JOIN Empresa AS e ON p.fkEmpresa = e.idEmpresa
-        JOIN Plano AS pl ON pl.fkEmpresa = e.idEmpresa;
 
