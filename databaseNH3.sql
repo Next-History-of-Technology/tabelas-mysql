@@ -23,15 +23,18 @@ SELECT * FROM empresa;
 
 --
 CREATE TABLE cadastroFuncionario (
-	idFuncionario INT AUTO_INCREMENT PRIMARY KEY,
-	email VARCHAR(50) UNIQUE NOT NULL,
-	nome VARCHAR(60) NOT NULL,
-	senha VARCHAR(100) NOT NULL,
-	telefone CHAR(13) UNIQUE NOT NULL,
-	cpf VARCHAR(11) UNIQUE NOT NULL,
-	statusFuncionario TINYINT DEFAULT 1,
-	fkEmpresa INT NOT NULL,
-	FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmpresa)
+idFuncionario INT AUTO_INCREMENT,
+email VARCHAR(50) UNIQUE NOT NULL,
+nome VARCHAR(60) NOT NULL,
+senha VARCHAR(100) NOT NULL,
+telefone CHAR(13) UNIQUE NOT NULL,
+cpf VARCHAR(11) UNIQUE NOT NULL ,
+statusFuncionario TINYINT DEFAULT 1,
+PRIMARY KEY(idFuncionario , fkEmpresa),
+fkEmpresa INT NOT NULL,
+CONSTRAINT fkEmpresaFuncionario 
+	FOREIGN KEY (fkEmpresa) 
+		REFERENCES Empresa(idEmpresa)
 );
 
 INSERT INTO cadastroFuncionario (fkEmpresa, email, nome, senha, telefone, cpf) VALUES
@@ -46,15 +49,20 @@ SELECT * FROM cadastroFuncionario;
 
 -- 
 CREATE TABLE plano (
-	idPlano INT AUTO_INCREMENT PRIMARY KEY,
-	dtVencimentoPlano DATE NOT NULL,
-	valorPlano DECIMAL(7,2) NOT NULL,
-	tipoPlano VARCHAR(15) NOT NULL,
-	formaPagamento VARCHAR(30) NOT NULL,
-	dtPagamento DATETIME DEFAULT CURRENT_TIMESTAMP,
-	fkEmpresa INT,
-	plano_idPlano INT NULL,
-	FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmpresa)
+idPagamento INT AUTO_INCREMENT PRIMARY KEY,
+dtVencimentoPlano DATE NOT NULL,
+valorPlano DECIMAL (7,2) NOT NULL,
+tipoPlano VARCHAR(15) NOT NULL,
+formaPagamento VARCHAR(30) NOT NULL,
+CONSTRAINT chkFormaPagamento
+	CHECK (formaPagamento IN ('boleto', 'credito', 'pix', 'transferencia')),
+dtPagamento DATETIME DEFAULT CURRENT_TIMESTAMP,
+CONSTRAINT chkTipoPlano
+	CHECK (tipoPlano IN ('semestral','anual')),
+fkEmpresa INT,
+CONSTRAINT fkEmpresaPagamento 
+	FOREIGN KEY(fkEmpresa) 
+		REFERENCES Empresa (idEmpresa)
 );
 
 INSERT INTO plano (formaPagamento , fkEmpresa , dtVencimentoPlano, tipoPlano, valorPlano)
@@ -88,11 +96,13 @@ SELECT * FROM camaraFria;
 
 --
 CREATE TABLE localSensor (
-	idLocalSensor INT PRIMARY KEY AUTO_INCREMENT,
-	nomeLocal VARCHAR(45) NOT NULL,
-	statusSensor TINYINT DEFAULT 1,
-	fkCamaraFria INT NOT NULL,
-	FOREIGN KEY (fkCamaraFria) REFERENCES camaraFria(idCamaraFria)
+idLocalSensor INT PRIMARY KEY AUTO_INCREMENT,
+nomeLocal VARCHAR(45) NOT NULL,
+statusSensor TINYINT DEFAULT 1,
+fkCamaraFria INT NOT NULL,
+CONSTRAINT fkLocalCamaraFria
+ FOREIGN KEY (fkCamaraFria) 
+	REFERENCES camaraFria(idCamaraFria)
 );
 
 INSERT INTO localSensor (nomeLocal, fkCamaraFria) VALUES
@@ -125,45 +135,52 @@ SELECT * FROM localSensor;
 
 -- 
 CREATE TABLE sensor (
-	idSensor INT PRIMARY KEY AUTO_INCREMENT,
-	codSerie INT,
-	dtInstalacao DATE,
-	fkLocalSensor INT,
-	FOREIGN KEY (fkLocalSensor) REFERENCES localSensor(idLocalSensor)
+idSensor INT PRIMARY KEY AUTO_INCREMENT,
+codSerie INT,
+dtInstalacao DATE,
+fklocalSensor INT,
+CONSTRAINT fkLocalSensorEmpresa
+	FOREIGN KEY (fkLocalSensor) 
+		REFERENCES localSensor(idLocalSensor)
 );
 
-INSERT INTO sensor (codSerie , dtInstalacao, fkLocalSensor) VALUES
+INSERT INTO Sensor(codSerie , dtInstalacao, fklocalSensor) VALUES
 (111111, '2024-09-11', 1),
 (222222, '2024-10-21', 2),
 (333333, '2024-12-30', 3),
-(444444, '2025-04-25', 4),
+(444444, '2025-04-25', 4);
+
+INSERT INTO Sensor(codSerie , dtInstalacao, fklocalSensor) VALUES
 (555555, '2024-09-11', 5),
 (666666, '2024-10-21', 6),
 (777777, '2024-12-30', 7),
-(888888, '2025-04-25', 8),
+(888888, '2025-04-25', 8);
+
+INSERT INTO Sensor(codSerie , dtInstalacao, fklocalSensor) VALUES
 (999999, '2024-09-11', 9),
 (101010, '2024-10-21', 10),
 (110110, '2024-12-30', 11),
-(121212, '2025-04-25', 12),
+(121212, '2025-04-25', 12);
+
+INSERT INTO Sensor(codSerie , dtInstalacao, fklocalSensor) VALUES
 (131313, '2024-09-11', 13),
 (141414, '2024-10-21', 14),
 (151515, '2024-09-03', 15),
-(161616, '2025-04-25', 16),
-(171717, '2024-09-11', 17),
-(181818, '2024-10-21', 18),
-(191919, '2024-12-30', 19),
-(202020, '2025-04-25', 20);
+(161616, '2025-04-25', 16);
 
 SELECT * FROM sensor;
 
 -- 
 
 CREATE TABLE leitura (
-	idLeitura INT AUTO_INCREMENT PRIMARY KEY,
-	dataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
-	valorPPM DECIMAL(5,2),
-	fkSensor INT NOT NULL,
-	FOREIGN KEY (fkSensor) REFERENCES sensor(idSensor)
+idLeitura INT AUTO_INCREMENT,
+dataHora DATETIME,
+valorPPM DECIMAL(5,2),
+PRIMARY KEY(idLeitura, fkSensor),
+fkSensor INT NOT NULL,
+CONSTRAINT fkSensorLeitura
+	FOREIGN KEY (fkSensor) 
+		REFERENCES Sensor(idSensor)
 );
 
 INSERT INTO leitura (valorPPM, fkSensor) VALUES
@@ -177,16 +194,11 @@ INSERT INTO leitura (valorPPM, fkSensor) VALUES
 (2 , 13),
 (5 , 10),
 (4 , 9),
-(4 , 9),
 (7, 2),
 (2 , 3),
 (5 , 5),
 (4 , 7),
 (7, 6),
-(4 , 20),
-(14, 16),
-(4 , 17),
-(4 , 18),
-(0 , 19);
+(14, 16);
 
 SELECT * FROM leitura;
