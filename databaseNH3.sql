@@ -156,7 +156,7 @@ INSERT INTO sensor (codSerie , dtInstalacao, fkLocalSensor) VALUES
 
 SELECT * FROM sensor;
 
--- tabela leitura
+-- 
 
 CREATE TABLE leitura (
 	idLeitura INT AUTO_INCREMENT PRIMARY KEY,
