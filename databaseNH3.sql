@@ -30,11 +30,11 @@ senha VARCHAR(100) NOT NULL,
 telefone CHAR(13) UNIQUE NOT NULL,
 cpf VARCHAR(11) UNIQUE NOT NULL ,
 statusFuncionario TINYINT DEFAULT 1,
-PRIMARY KEY(idFuncionario , fkEmpresa),
 fkEmpresa INT NOT NULL,
+PRIMARY KEY(idFuncionario, fkEmpresa),
 CONSTRAINT fkEmpresaFuncionario 
 	FOREIGN KEY (fkEmpresa) 
-		REFERENCES Empresa(idEmpresa)
+		REFERENCES empresa(idEmpresa)
 );
 
 INSERT INTO cadastroFuncionario (fkEmpresa, email, nome, senha, telefone, cpf) VALUES
@@ -62,7 +62,7 @@ CONSTRAINT chkTipoPlano
 fkEmpresa INT,
 CONSTRAINT fkEmpresaPagamento 
 	FOREIGN KEY(fkEmpresa) 
-		REFERENCES Empresa (idEmpresa)
+		REFERENCES empresa(idEmpresa)
 );
 
 INSERT INTO plano (formaPagamento , fkEmpresa , dtVencimentoPlano, tipoPlano, valorPlano)
@@ -144,25 +144,25 @@ CONSTRAINT fkLocalSensorEmpresa
 		REFERENCES localSensor(idLocalSensor)
 );
 
-INSERT INTO Sensor(codSerie , dtInstalacao, fklocalSensor) VALUES
+INSERT INTO sensor(codSerie, dtInstalacao, fkLocalSensor) VALUES
 (111111, '2024-09-11', 1),
 (222222, '2024-10-21', 2),
 (333333, '2024-12-30', 3),
 (444444, '2025-04-25', 4);
 
-INSERT INTO Sensor(codSerie , dtInstalacao, fklocalSensor) VALUES
+INSERT INTO  sensor(codSerie, dtInstalacao, fkLocalSensor) VALUES
 (555555, '2024-09-11', 5),
 (666666, '2024-10-21', 6),
 (777777, '2024-12-30', 7),
 (888888, '2025-04-25', 8);
 
-INSERT INTO Sensor(codSerie , dtInstalacao, fklocalSensor) VALUES
+INSERT INTO  sensor(codSerie, dtInstalacao, fkLocalSensor) VALUES
 (999999, '2024-09-11', 9),
 (101010, '2024-10-21', 10),
 (110110, '2024-12-30', 11),
 (121212, '2025-04-25', 12);
 
-INSERT INTO Sensor(codSerie , dtInstalacao, fklocalSensor) VALUES
+INSERT INTO  sensor(codSerie, dtInstalacao, fkLocalSensor) VALUES
 (131313, '2024-09-11', 13),
 (141414, '2024-10-21', 14),
 (151515, '2024-09-03', 15),
@@ -180,25 +180,15 @@ PRIMARY KEY(idLeitura, fkSensor),
 fkSensor INT NOT NULL,
 CONSTRAINT fkSensorLeitura
 	FOREIGN KEY (fkSensor) 
-		REFERENCES Sensor(idSensor)
+		REFERENCES sensor(idSensor)
 );
 
-INSERT INTO leitura (valorPPM, fkSensor) VALUES
+INSERT INTO leitura (valorPPM, fksensor) VALUES
 (3 , 1),
-(2 , 4),
-(2 , 15),
-(5 , 12),
-(4 , 14),
-(3 , 11),
-(2 , 8),
-(2 , 13),
-(5 , 10),
-(4 , 9),
-(7, 2),
+(2 , 2),
 (2 , 3),
-(5 , 5),
-(4 , 7),
-(7, 6),
-(14, 16);
+(5 , 4);
 
 SELECT * FROM leitura;
+
+
