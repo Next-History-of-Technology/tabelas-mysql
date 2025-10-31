@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS nh3;
 CREATE DATABASE nh3;
 USE nh3;
 
@@ -104,7 +105,7 @@ INSERT INTO sensor VALUES
 (default, 234560, '2025-11-14', 4);
 
 CREATE TABLE leitura (
-idLeitura INT,
+idLeitura INT AUTO_INCREMENT,
 fkSensor INT NOT NULL,
 CONSTRAINT fkSensorLeitura
 FOREIGN KEY (fkSensor) 
@@ -116,10 +117,10 @@ valorPPM DECIMAL(5,2)
 );
 
 INSERT INTO leitura VALUES
-(1, 1, default, 7),
-(1, 2, default, 8),
-(1, 3, default, 9),
-(1, 4, default, 10);
+(default, 1, default, 7),
+(default, 2, default, 8),
+(default, 3, default, 9),
+(default, 4, default, 10);
 
 
 select * from empresa join cadastroFuncionario as func on func.fkEmpresa = empresa.idEmpresa join plano on empresa.fkPlano = plano.idPlano
@@ -141,3 +142,7 @@ select empresa.nomeFantasia,
 from empresa join cadastroFuncionario as func on func.fkEmpresa = empresa.idEmpresa join plano on empresa.fkPlano = plano.idPlano
 join localSensor as local on local.fkEmpresa = empresa.idEmpresa join sensor on sensor.fklocalSensor = local.idLocalSensor
 join leitura on leitura.fkSensor = sensor.idSensor join camaraFria as camara on camara.fkEmpresa = empresa.idEmpresa;
+
+
+
+select * from leitura;
