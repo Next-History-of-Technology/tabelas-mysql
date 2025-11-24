@@ -48,11 +48,15 @@ nome VARCHAR(60) NOT NULL,
 senha VARCHAR(100) NOT NULL,
 telefone CHAR(15) UNIQUE NOT NULL,
 cpf VARCHAR(14) UNIQUE NOT NULL ,
-statusFuncionario TINYINT DEFAULT 1
+statusFuncionario TINYINT DEFAULT 1,
+tipo VARCHAR(45) NOT NULL
 );
 
+ALTER TABLE cadastroFuncionario ADD CONSTRAINT chkTipo
+	CHECK(tipo = 'suporte' OR tipo = 'funcionario');
+    
 INSERT INTO cadastroFuncionario VALUES
-(1, 1, 'amandha@jbs.com', 'Amandha', 'amandhajbs123', '11 965432524', '09854327689', default);
+(1, 1, 'amandha@jbs.com', 'Amandha', 'amandhajbs123', '11 965432524', '09854327689', default, 'suporte');
 
 
 
