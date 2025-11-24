@@ -36,7 +36,7 @@ INSERT INTO empresa VALUES
 (default, '20420001461278', 'JBS', 'JBS Ltda', '11 987654532', default, '12345', 1);
 
 CREATE TABLE cadastroFuncionario (
-idFuncionario INT,
+idFuncionario INT AUTO_INCREMENT,
 fkEmpresa INT NOT NULL,
 CONSTRAINT chkfkEmpresaFuncionario 
 FOREIGN KEY (fkEmpresa) 
@@ -46,8 +46,8 @@ PRIMARY KEY(idFuncionario, fkEmpresa),
 email VARCHAR(50) UNIQUE NOT NULL,
 nome VARCHAR(60) NOT NULL,
 senha VARCHAR(100) NOT NULL,
-telefone CHAR(13) UNIQUE NOT NULL,
-cpf VARCHAR(11) UNIQUE NOT NULL ,
+telefone CHAR(15) UNIQUE NOT NULL,
+cpf VARCHAR(14) UNIQUE NOT NULL ,
 statusFuncionario TINYINT DEFAULT 1
 );
 
@@ -146,3 +146,7 @@ join leitura on leitura.fkSensor = sensor.idSensor join camaraFria as camara on 
 
 
 select * from leitura;
+
+select * from cadastrofuncionario;
+
+SELECT idEmpresa, CNPJ, nomeFantasia, razaoSocial, telefone, statusEmpresa, codigoEmpresa, fkPlano FROM empresa;
